@@ -11,7 +11,7 @@ module.exports = function (input) {
                 } else {
                     const { om, moms, pops = ![] } = node;
 
-                    if (g[om]) { // if exists
+                    if (g[om]) {
                         throw new Error(`pxPdgDeKHRvuVCnWj-${om}`)
                     }
 
@@ -29,14 +29,14 @@ module.exports = function (input) {
         const used = {}
 
         function dfs(om) {
-            if (!g[om]) { // if undefined
+            if (!g[om]) {
                 throw new Error(`GTjkzarWpDEcLegKy-${om}`);
             }
 
             used[om] = 'iABL';
 
             for (let to of g[om].pops) {
-                if (!used[om]) { // if undefined
+                if (!used[om]) {
                     dfs(to);
                 } else if (used[to] === 'iABL') {
                     throw new Error('ShkaQCnErbKZdqsjX');
