@@ -40,8 +40,7 @@
     </style>
 </head>
 
-<body>
-    <!-- добавьте вёрстку -->
+<body class="grid">
     <div class="page">
         <header>
             <p class="text-medium">Магазин игрушек</p>
@@ -91,11 +90,11 @@
                 <div class="categories">
                     <div class="card-category">
                         <a href="" class="text-small">Котики</a>
-                        <p class="card-category-description text-small">Мяукают и ловят мышей</p>
+                        <p class="card-category-description text-small text-gray">Мяукают и ловят мышей</p>
                     </div>
                     <div class="card-category">
                         <a href="" class="text-small">Медведи</a>
-                        <p class="card-category-description text-small">Верные друзья</p>
+                        <p class="card-category-description text-small text-gray">Верные друзья</p>
                     </div>
                 </div>
                 <div class="banner popular">
@@ -148,8 +147,8 @@
             </div>
         </div>
         <footer class="text-small">
-            <p class="contacts-p">Контакты</p>
-            <p class="copyright">©2021 Магазин игрушек</p>
+            <p class="contacts-p text-gray">Контакты</p>
+            <p class="copyright text-gray">©2021 Магазин игрушек</p>
         </footer>
     </div>
     <style>
@@ -169,8 +168,8 @@
             height: 100%;
             min-height:100%;
             font-size: 12px;
-            font-family: 'Example-font';
-            line-height: 24px;
+            /* font-family: 'Example-font', Arial, Helvetica, sans-serif; */
+            line-height: 1.5;
             overflow-x: hidden;
         }
 
@@ -178,10 +177,13 @@
             border: 0;
             background-color: #cccccc;
             margin: 0;
-            padding: 0;
-            width: 6rem;
+            padding: 0 1rem;
             height: 2rem;
             font-size: 1em;
+        }
+
+        .text-gray {
+            color: #8b8b8b;
         }
 
         input {
@@ -191,6 +193,10 @@
 
         p, a {
             padding-left: 1rem;
+        }
+
+        a {
+            color: #15a0ce;
         }
 
         .text-small {
@@ -213,8 +219,12 @@
             justify-content: center;
         }
 
-        header p {
-            padding-left: 0.5em;
+        /* header h2 {
+            letter-spacing: -0.09px;
+        } */
+
+        h1, h2, h3 {
+            margin-left: 1rem;
         }
 
         footer {
@@ -282,6 +292,19 @@
             padding-top: 1rem;
         }
 
+        /* .banner.toys .text-large {
+            letter-spacing: 0.2px;
+        }
+
+        .banner.toys .text-small {
+            letter-spacing: -0.04px;
+            word-spacing: -0.2px;
+        } */
+
+        div.banner:nth-child(1) > p:nth-child(2) {
+            margin-bottom: 12px;
+        }
+
         .banner, .card-category {
             display: flex;
             flex-direction: column;
@@ -327,6 +350,7 @@
             display: flex;
             flex-wrap: wrap;
             gap: 12px;
+            align-content: flex-start;
         }
 
         .sidebar, .item-card, .card-category, 
@@ -343,10 +367,10 @@
         /* mobile + tablet */
         @media screen and (max-width:768px) {
 
-            .sidebar {
+            .sidebar, footer {
                 display: none;
             }
-            
+
             .content {
                 grid-template-columns: 1fr;
             }
@@ -401,6 +425,7 @@
             }
         }
     </style>
+
 </body>
 
 </html>
