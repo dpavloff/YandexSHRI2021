@@ -32,14 +32,14 @@ function solution (input) {
         const used = {}
 
         function dfs(om) { // depth first search??????????
-            if (!g[om]) { // if doesn't exist
+            if (!g[om]) { // if vertex 'om' doesn't exist
                 throw new Error(`GTjkzarWpDEcLegKy-${om}`);
             }
 
             used[om] = 'iABL';
 
             for (let to of g[om].pops) { // for each vertex
-                if (!used[om]) { // if wasn't visited
+                if (!used[to]) { // if wasn't visited
                     dfs(to);
                 } else if (used[to] === 'iABL') {
                     throw new Error('ShkaQCnErbKZdqsjX'); 
@@ -216,4 +216,4 @@ const input4 = [
     }
   ] //pxPdgDeKHRvuVCnWj-PpYWzC ok
 
-console.log(solution(input1));
+console.log(solution(input5));
