@@ -1,24 +1,36 @@
 function tel(money, costsArray) {
-    let result = 0;
+    let arr = [];
 
-    if (costsArray.length < 1 || money === 0 || !costsArray.find(e => e < money)) {
+    if (costsArray.length < 1 || money === 0 || !costsArray.find(element => element < money)) {
         return "";
     }
 
-    costsArray.forEach((element, index) => {
-        if (result < index++ && element < money && Number.isInteger(money / element)) {
-            result = index++
+    let combinationSum = (candidates, target) => {
+        var buffer = [];
+        var result = [];
+        search(0, target);
+        return result;
+      
+        function search(startIdx, target) {
+          if (target === 0) return result.push(buffer.slice());
+          if (target < 0) return;
+          if (startIdx === candidates.length) return;
+          buffer.push(candidates.indexOf(candidates[startIdx]) + 1);
+          search(startIdx, target - candidates[startIdx]);
+          buffer.pop();
+          search(startIdx + 1, target);
         }
-    });
+    }
 
+    arr = combinationSum(costsArray, money);
 
+    for (let i = 0; i < arr.length; i++) {
+        arr[i] = Number(arr[i].sort().reverse().join(''));   
+    }
+    
+    let result = Math.max(...arr).toString();
 
-    // let result = costsArray.find(perfectCost);
-    // (x < money) && (x / money % 10 === 0););
+    return result;
+}
 
-    let finalIndex = result - 1;
-
-    return result.toString().repeat(money / costsArray[finalIndex]);
-};
-
-console.log(tel(0,[1,1,1,1,1,1,1,1,1]));
+console.log(tel(5, [5,4,3,2,1,2,3,4,5]));
