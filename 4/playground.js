@@ -1,79 +1,62 @@
-// Javascript program to find out
-// all combinations of positive
-// numbers that add upto given
-// number
+// module.exports 
+const tele = (amount, costsArray) => {
+    let combos = [];
 
-/* arr - array to store the
-combination
-index - next location in array
-num - given number
-reducedNum - reduced number */
-function findCombinationsUtil(arr, index, num, reducedNum) {
-    // Base condition
-    if (reducedNum < 0)
-        return;
-
-    // If combination is
-    // found, print it
-    if (reducedNum == 0) {
-        for (let i = 0; i < index; i++)
-            console.log(arr[i] + " ");
-        return;
+    if (costsArray.length < 1 || amount === 0 || !costsArray.find(element => element < amount)) {
+        return "";
     }
 
-    // Find the previous number
-    // stored in arr[]. It helps
-    // in maintaining increasing
-    // order
-    let prev = (index == 0) ? 1 : arr[index - 1];
+    var combinationSum = function(candidates, target, combos, currCombo, index) {
 
-    // note loop starts from
-    // previous number i.e. at
-    // array location index - 1
-    for (let k = prev; k <= num; k++) {
-        // next element of
-        // array is k
-        arr[index] = k;
+        if (target === 0) combos.push([...currCombo]);
 
-        // call recursively with
-        // reduced number
-        findCombinationsUtil(arr, index + 1, num, reducedNum - k);
+        if (target < 0) return;
+      
+        for (let i = index; i < candidates.length; i++) {
+
+          if (candidates[i] <= target) {
+
+            currCombo.push(i + 1);
+
+            combinationSum(candidates, target - candidates[i], combos, currCombo, i);
+
+            currCombo.pop();
+          }
+        }
     }
-}
 
-/* Function to find out all
-combinations of positive
-numbers that add upto given
-number. It uses findCombinationsUtil() */
-function findCombinations(n) {
-    // array to store the combinations
-    // It can contain max n elements
-    let arr = [];
+    combinationSum(costsArray, amount, combos, [], 0);
 
-    // find all combinations
-    arr = findCombinationsUtil(arr, 0, n, n);
-}
+    for (let i = 0; i < combos.length; i++) {
+        combos[i] = [combos[i], new Set(combos[i]).size, combos[i].length];
+        combos[i][0] = Number(combos[i][0].sort().reverse().join(''));   
+    }
 
-// Driver Code
+    let maxLen = 0, maxVariety = 0;
 
-let n = 5;
-// combinationSum(5, [5,4,3,2,1,2,3,4,5]);
+    for (let i = 0; i < combos.length; i++) {
+        const element = combos[i];
+        maxLen = maxLen < element[2] ? element[2] : maxLen;
+    }
+    
+    let lengthyArr = combos.filter(x => x[2] === maxLen);
 
-function combinationSum(candidates, target) {
-    var buffer = [];
-    var result = [];
-    search(0, target);
+    for (let i = 0; i < lengthyArr.length; i++) {
+        const element = lengthyArr[i];
+        maxVariety = maxVariety < element[1] ? element[1] : maxVariety;
+    }
+
+    let varietyArr = lengthyArr.filter(x => x[1] === maxVariety ? x[0] : 0);
+
+    let resultArr = [];
+
+    varietyArr.forEach(ele => {
+        resultArr.push(ele[0]);
+    });
+
+    let result = Math.max(...resultArr).toString();
+
     return result;
-  
-    function search(startIdx, target) {
-      if (target === 0) return result.push(buffer.slice());
-      if (target < 0) return;
-      if (startIdx === candidates.length) return;
-      buffer.push(candidates.indexOf(candidates[startIdx]) + 1);
-      search(startIdx, target - candidates[startIdx]);
-      buffer.pop();
-      search(startIdx + 1, target);
-    }
 }
 
-console.log(combinationSum([5,4,3,2,1,2,3,4,5], 5))
+console.log(tele(2, [5,4,3,2,1,2,3,4,5])); //"55"
