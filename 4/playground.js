@@ -8,8 +8,8 @@ const tele = (amount, costsArray) => {
 
     var combinationSum = function(candidates, target, combos, currCombo, index) {
 
-        if (target === 0) combos.push([...currCombo]);
-        else if (target < candidates[index]) combos.push([...currCombo]);
+        if (target === 0) combos.push([...currCombo].sort().reverse());
+        else if (target < candidates[index]) combos.push([...currCombo].sort().reverse());
 
         if (target < 0) return;
       
@@ -28,42 +28,31 @@ const tele = (amount, costsArray) => {
 
     combinationSum(costsArray, amount, combos, [], 0);
 
-    for (let i = 0; i < combos.length; i++) {
-        combos[i] = [combos[i], new Set(combos[i]).size, combos[i].length];
-        combos[i][0] = Number(combos[i][0].sort().reverse().join(''));   
-    }
+    let t = combos.filter(p => p !== undefined);
 
-    let maxLen = 0, maxVariety = 0;
+    let max = t.reduce((acc, path) => {
+        if (path.length > acc.length)
+            return path
+        else if (path.length === acc.length) {
+            const diff = calcDiff(path, acc)
+            if (diff === 0 && path > acc || diff > 0)
+                return path
+        }
 
-    for (let i = 0; i < combos.length; i++) {
-        const element = combos[i];
-        maxLen = maxLen < element[2] ? element[2] : maxLen;
-    }
+        return acc
+    }, "");
     
-    let lengthyArr = combos.filter(x => x[2] === maxLen);
-
-    for (let i = 0; i < lengthyArr.length; i++) {
-        const element = lengthyArr[i];
-        maxVariety = maxVariety < element[1] ? element[1] : maxVariety;
+    function calcDiff(a, b) {
+        // Whit Set I remove duplicates from strings
+        return new Set(a).size - new Set(b).size
     }
 
-    let varietyArr = lengthyArr.filter(x => x[1] === maxVariety ? x[0] : 0);
-
-    let resultArr = [];
-
-    varietyArr.forEach(ele => {
-        resultArr.push(ele[0]);
-    });
-
-    let result = Math.max(...resultArr).toString();
-
-    return result;
+    return max.join('');
 }
 
 console.log(tele(7, [4, 5, 5, 5, 5, 5, 5, 5, 5])); //"9"
 console.log(tele(2, [5,4,3,2,1,2,3,4,5])); //"55"
 console.log(tele(0, [1,1,1,1,1,1,1,1,1])); // ""
 console.log(tele(2, [9,11,1,12,5,8,9,10,6])); // "33"
+console.log(tele(20, [21, 3, 13, 3, 17, 3, 3, 4, 5])); // "977642"
 console.log(tele(5, [5,4,3,2,1,2,3,4,5])); // "55555"
-console.log(tele(20, [21,3,13,3,17,3,3,4,5])); // 977642
-console.log(tele(20, [21,3,13,3,3,3,3,4,5])); // 976542
