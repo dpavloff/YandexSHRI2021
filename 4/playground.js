@@ -8,33 +8,29 @@ const tele = (amount, costsArray) => {
 
     var combinationSum = function(candidates, target, combos, currCombo, index) {
 
-        if (target === 0) combos.push(target, [...currCombo]);
+        if (target === 0) combos.push([...currCombo]);
+        else if (target < candidates[index]) combos.push([...currCombo]);
 
         if (target < 0) return;
       
         for (let i = index; i < candidates.length; i++) {
+            if (candidates[i] <= target) {
+                
+                currCombo.push(i + 1);
 
-          if (candidates[i] <= target) {
+                combinationSum(candidates, target - candidates[i], combos, currCombo, i);
 
-            currCombo.push(i + 1);
+                currCombo.pop();
 
-            combinationSum(candidates, target - candidates[i], combos, currCombo, i);
-
-            currCombo.pop();
-          } else {
-            //   currCombo.push(i + 1);
-              combos.push([target, [...currCombo]]);
-              currCombo.pop();
-          }
+            }
         }
     }
 
     combinationSum(costsArray, amount, combos, [], 0);
 
     for (let i = 0; i < combos.length; i++) {
-        // добавляем в к каждой комбинацию количество "разнообразных" индексов и длину 
-        combos[i][1] = [combos[i][1], new Set(combos[i]).size, combos[i].length];
-        combos[i][2] = Number(combos[i][1].sort().reverse().join(''));   
+        combos[i] = [combos[i], new Set(combos[i]).size, combos[i].length];
+        combos[i][0] = Number(combos[i][0].sort().reverse().join(''));   
     }
 
     let maxLen = 0, maxVariety = 0;
@@ -68,5 +64,6 @@ console.log(tele(7, [4, 5, 5, 5, 5, 5, 5, 5, 5])); //"9"
 console.log(tele(2, [5,4,3,2,1,2,3,4,5])); //"55"
 console.log(tele(0, [1,1,1,1,1,1,1,1,1])); // ""
 console.log(tele(2, [9,11,1,12,5,8,9,10,6])); // "33"
-console.log(tele(20, [21, 3, 13, 3, 17, 3, 3, 4, 5])); // "977777"
 console.log(tele(5, [5,4,3,2,1,2,3,4,5])); // "55555"
+console.log(tele(20, [21,3,13,3,17,3,3,4,5])); // 977642
+console.log(tele(20, [21,3,13,3,3,3,3,4,5])); // 976542
