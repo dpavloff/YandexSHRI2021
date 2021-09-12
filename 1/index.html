@@ -20,10 +20,10 @@
         body {
             margin: 0;
             padding: 0;
+            font-family: 'Example-font';
         }
 
         body {
-            font-family: 'Example-font';
             background:
                 linear-gradient(var(--color-grid), transparent 1px),
                 linear-gradient(90deg, var(--color-grid), transparent 1px);
@@ -40,9 +40,8 @@
     </style>
 </head>
 
-<body class="grid">
+<body>
     <div class="page">
-        <!-- test -->
         <header>
             <p class="text-medium">Магазин игрушек</p>
         </header>
@@ -149,7 +148,7 @@
         </div>
         <footer class="text-small">
             <p class="contacts-p text-gray">Контакты</p>
-            <p class="copyright text-gray">©2021 Магазин игрушек</p>
+            <p class="copyright text-gray">© 2021 Магазин игрушек</p>
         </footer>
     </div>
     <style>
@@ -162,6 +161,7 @@
             margin: 0;
             padding: 0;
             border: 0;
+            font-family: 'Example-font';
         }
 
         html,
@@ -169,23 +169,20 @@
             height: 100%;
             min-height:100%;
             font-size: 12px;
-            /* font-family: 'Example-font', Arial, Helvetica, sans-serif; */
-            line-height: 1.5;
-            overflow: hidden;
+            line-height: 24px;
+            /* overflow-x: hidden; */
         }
 
         button {
             border: 0;
             background-color: #cccccc;
-            margin: 0;
-            padding: 0;
-            width: 6rem;
+            width: 6.2rem;
             height: 2rem;
-            font-size: 1em;
+            font-size: 16px;
         }
 
         .text-gray {
-            color: #8b8b8b;
+            color: #676767;
         }
 
         input {
@@ -203,14 +200,17 @@
 
         .text-small {
             font-size: 16px;
+            line-height: 24px;
         }
 
         .text-medium {
             font-size: 24px;
+
         }
 
         .text-large {
             font-size: 32px;
+            line-height: 24px;
         }
 
         header {
@@ -288,9 +288,7 @@
 
         .banner.toys {
             padding-top: 1rem;
-        }
-        div.banner:nth-child(1) > p:nth-child(2) {
-            margin-bottom: 12px;
+            justify-content: space-evenly;
         }
 
         .banner, .card-category {
@@ -300,7 +298,7 @@
         }
 
         .banner {
-            justify-content: space-around;
+            justify-content: center;
         }
 
         .card-category {
@@ -355,7 +353,7 @@
         /* mobile + tablet */
         @media screen and (max-width:768px) {
 
-            .sidebar, footer {
+            .sidebar {
                 display: none;
             }
 
