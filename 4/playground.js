@@ -1,6 +1,7 @@
 // module.exports 
 const tele = (amount, costsArray) => {
     let combos = [];
+    let maxLen = 0;
 
     if (costsArray.length < 1 || amount === 0 || !costsArray.find(element => element < amount)) {
         return "";
@@ -8,11 +9,16 @@ const tele = (amount, costsArray) => {
 
     var combinationSum = function(candidates, target, combos, currCombo, index) {
 
-        if (target === 0) combos.push([...currCombo].sort().reverse());
-        else if (target < candidates[index]) combos.push([...currCombo].sort().reverse());
+        if (target === 0 && maxLen <= currCombo.length) {
+            maxLen = currCombo.length;
+            combos.push([...currCombo].sort().reverse());
+        } 
+        
+        else if (target < candidates[index] && currCombo.length > 0 && maxLen <= currCombo.length) {
+            maxLen = currCombo.length;
+            combos.push([...currCombo].sort().reverse());
+        }
 
-        if (target < 0) return;
-      
         for (let i = index; i < candidates.length; i++) {
             if (candidates[i] <= target) {
                 
