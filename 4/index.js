@@ -1,6 +1,6 @@
-// module.exports 
 const tele = (amount, costsArray) => {
     let combos = [];
+    let maxLen = 0;
 
     if (costsArray.length < 1 || amount === 0 || !costsArray.find(element => element < amount)) {
         return "";
@@ -8,60 +8,58 @@ const tele = (amount, costsArray) => {
 
     var combinationSum = function(candidates, target, combos, currCombo, index) {
 
-        if (target === 0) combos.push(target, [[...currCombo]]);
+        if (target === 0 && maxLen <= currCombo.length) {
+            maxLen = currCombo.length;
+            combos.push([...currCombo].sort().reverse());
+        } 
+        
+        else if (target < candidates[index] && currCombo.length > 0 && maxLen <= currCombo.length) {
+            maxLen = currCombo.length;
+            combos.push([...currCombo].sort().reverse());
+        }
 
-        if (target < 0) return;
-      
         for (let i = index; i < candidates.length; i++) {
+            if (candidates[i] <= target) {
+                
+                currCombo.push(i + 1);
 
-        //   if (candidates[i] <= target) {
+                combinationSum(candidates, target - candidates[i], combos, currCombo, i);
 
-            currCombo.push(i + 1);
+                currCombo.pop();
 
-            combinationSum(candidates, target - candidates[i], combos, currCombo, i);
-
-            currCombo.pop();
-        //   } 
-          
-        //   else
-
-        //   if (target < candidates[i] && target > 0) {
-        //       combos.push([target, [...currCombo]]);
-        //   }
+            }
         }
     }
 
     combinationSum(costsArray, amount, combos, [], 0);
 
-    let minMoney = Number.MAX_VALUE;
+    let t = combos.filter(p => p !== undefined);
 
-    for (let i = 0; i < combos.length; i++) {
-        const currMoney = combos[i][0];
+    let max = t.reduce((acc, path) => {
+        if (path.length > acc.length)
+            return path
+        else if (path.length === acc.length) {
+            const diff = calcDiff(path, acc)
+            if (diff === 0 && path > acc || diff > 0)
+                return path
+        }
 
-        if (minMoney > currMoney) minMoney = currMoney;
-    }
-
-    combos = combos.filter(x => x[0] === minMoney);
-
-    for (let i = 0; i < combos.length; i++) {
-        let element = combos[i][1]; 
-        combos[i][1] = Number(element.sort().reverse().join(''));   
-    }
-
-    let finalArr = [];
-
-    combos.forEach(ele => {
-        finalArr.push(ele[1]);
-    })
+        return acc
+    }, "");
     
-    let result = Math.max(...finalArr).toString();
+    function calcDiff(a, b) {
+        // Whit Set I remove duplicates from strings
+        return new Set(a).size - new Set(b).size
+    }
 
-    return result;
+    return max.join('');
 }
 
 console.log(tele(7, [4, 5, 5, 5, 5, 5, 5, 5, 5])); //"9"
 console.log(tele(2, [5,4,3,2,1,2,3,4,5])); //"55"
 console.log(tele(0, [1,1,1,1,1,1,1,1,1])); // ""
 console.log(tele(2, [9,11,1,12,5,8,9,10,6])); // "33"
-console.log(tele(20, [21, 3, 13, 3, 17, 3, 3, 4, 5])); // "977777"
+console.log(tele(20, [21, 3, 13, 3, 17, 3, 3, 4, 5])); // "977642"
 console.log(tele(5, [5,4,3,2,1,2,3,4,5])); // "55555"
+
+module.exports = tele;
